@@ -1,0 +1,32 @@
+---
+title: "Crime in Sacremento, CA"
+author: "Leelakrishna V"
+date: "03/08/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+The data for this map is taken from the Sacramento Crime January 2006 dataset which contains 7,584 crime records as made available by the Sacramento Police Department. The same is available here: http://samplecsvs.s3.amazonaws.com/SacramentocrimeJanuary2006.csv 
+
+```{r, echo=FALSE, results=FALSE}
+data <- "http://samplecsvs.s3.amazonaws.com/SacramentocrimeJanuary2006.csv"
+df <- read.csv(url(data))
+df <- df[sample(nrow(df), 800), c(8,9)]
+
+```
+ 
+
+## Plotting Map
+
+The map below shows a clustered view of all the spots where crimes were recorded by the Sacremento Police Department in 2006. 
+
+```{r Leaflet, echo=FALSE}
+library(leaflet)
+
+df %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions())
+
+```
